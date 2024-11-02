@@ -6,5 +6,5 @@ class usuario(models.Model):
     password = models.CharField(max_length=100)
     sede = models.CharField(max_length=100)
     def __str__(self):
-        return self.name
+        return self.username
     
