@@ -1,8 +1,6 @@
 from rest_framework import viewsets
 from rest_framework import filters
 from django_filters.rest_framework import DjangoFilterBackend
-from django.http import JsonResponse
-from django.db.models import Count, Sum
 from .serializer import *
 from .models import *
 
@@ -27,6 +25,3 @@ class AsignaturaViewSet(viewsets.ModelViewSet):
 class AsistenciaViewSet(viewsets.ModelViewSet):
     queryset = asistencia.objects.all()
     serializer_class = AsistenciaSerializer
-
-    
-    

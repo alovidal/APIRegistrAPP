@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'django_filters',
     'corsheaders',
     'coreapi',
+    'paginaProfesor',
     'api'
 ]
 
@@ -138,4 +139,3 @@ REST_FRAMEWORK = {
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:8100",
 ]
-
