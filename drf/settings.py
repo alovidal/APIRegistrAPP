@@ -138,4 +138,5 @@ REST_FRAMEWORK = {
 
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:8100",
+    "https://15wd7tdg-8000.brs.devtunnels.ms",
 ]
