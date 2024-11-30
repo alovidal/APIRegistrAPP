@@ -5,13 +5,37 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     {% load static %}
     <link rel="stylesheet" href="{% static './general.css' %}" />
+    <link rel="icon" href="{% static './assets/registrapp.png' %}" />
     <title>Sala de Profesor</title>
   </head>
   <body>
     <main class="main-content">
-        <section>
-            <h1 class="main-title">Registro de clases</h1>
-        </section>
+      <section>
+        <h1 class="main-title">Generar clase</h1>
+        <form id="qrForm" method="POST" action="{% url 'generar_qr' %}">
+          {% csrf_token %}
+          <select name="asignatura" required>
+            <option value="" selected>Seleccionar asignatura</option>
+            {% for asignatura in asignaturas %}
+            <option value="{{ asignatura.nombreAsignatura }}">
+              {{ asignatura.nombreAsignatura }}
+            </option>
+            {% endfor %}
+          </select>
+          <select name="seccion" required>
+            <option value="" selected>Seleccionar sección</option>
+            {% for asignatura in asignaturas %}
+            <option>{{ asignatura.seccion }}</option>
+            {% endfor %}
+          </select>
+          <button type="submit" class="add-button">Generar QR</button>
+        </form>
+        <div id="qrResult" style="margin-top: 20px; text-align: center"></div>
+      </section>
+
+      <div>
+        <h1 class="main-title">Registro de clases</h1>
+      </div>
       <section class="table-section">
         <div class="table-container">
           <table class="residents-table">
@@ -20,6 +44,7 @@
                 <th>Usuario</th>
                 <th>Email</th>
                 <th>Sede</th>
+                <th>Asignaturas</th>
               </tr>
             </thead>
             <tbody>
@@ -28,6 +53,7 @@
                 <td>{{ usuario.username }}</td>
                 <td>{{ usuario.email }}</td>
                 <td>{{ usuario.sede }}</td>
+                <td><a href="#" class="info-link">Ver</a></td>
               </tr>
               {% empty %}
               <tr>
@@ -40,4 +66,33 @@
       </section>
     </main>
   </body>
+  <script>
+    document
+      .getElementById("qrForm")
+      .addEventListener("submit", async function (event) {
+        event.preventDefault(); // Evita la recarga de la página
+
+        const formData = new FormData(this);
+        const response = await fetch("{% url 'generar_qr' %}", {
+          method: "POST",
+          body: formData,
+        });
+
+        const data = await response.json();
+
+        if (data.qr_data) {
+          // Crear la imagen del QR
+          const qrImage = document.createElement("img");
+          qrImage.src = `data:image/png;base64,${data.qr_data}`;
+          qrImage.alt = "Código QR generado";
+
+          // Mostrar el QR en el contenedor
+          const qrResult = document.getElementById("qrResult");
+          qrResult.innerHTML = ""; // Limpia cualquier QR previo
+          qrResult.appendChild(qrImage);
+        } else {
+          alert(data.error || "Error al generar el QR");
+        }
+      });
+  </script>
 </html>

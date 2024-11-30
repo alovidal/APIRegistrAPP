@@ -3,21 +3,21 @@ from .models import *
 
 class AsignaturaSerializer(serializers.ModelSerializer):
     class Meta:
-        model = asignatura
+        model = Asignatura
         fields = "__all__"
 
 class AsistenciaSerializer(serializers.ModelSerializer):
     class Meta:
-        model = asistencia
+        model = Asistencia
         fields = "__all__"
         
 class SedeSerializer(serializers.ModelSerializer):
     class Meta:
-        model = sedeInstitucion
+        model = SedeInstitucion
         fields = '__all__'
 
 class UsuarioSerializer(serializers.ModelSerializer):
     asignaturas = AsignaturaSerializer(many=True)
     class Meta:
-        model = usuario
+        model = Usuario
         fields= ["username", "email", "password", "sede", "asignaturas"]        
