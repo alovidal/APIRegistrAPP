@@ -136,7 +136,9 @@ REST_FRAMEWORK = {
 
 # settings.py
 
+CORS_ALLOW_ALL_ORIGINS = True
+
 CORS_ALLOWED_ORIGINS = [
-    "http://localhost:8100",
-    "https://15wd7tdg-8000.brs.devtunnels.ms",
+    "https://localhost:8100",
+    "https://localhost",
 ]
